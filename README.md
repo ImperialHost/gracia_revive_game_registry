@@ -1,0 +1,1 @@
+# gracia_revive_game_registry
