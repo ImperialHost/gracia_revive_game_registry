@@ -101,5 +101,8 @@ The authors provide this code "as-is" without warranty of any kind. Use at your 
 ---
 
 ## 📄 License & Notice
-
-See LICENSE.md and NOTICE.md for details.
+  
+See the following files for details:  
+- [LICENSE.md](LICENSE.md)  
+- [NOTICE_EN.md](NOTICE_EN.md) (English)  
+- [NOTICE_RO.md](NOTICE_RO.md) (Română)
