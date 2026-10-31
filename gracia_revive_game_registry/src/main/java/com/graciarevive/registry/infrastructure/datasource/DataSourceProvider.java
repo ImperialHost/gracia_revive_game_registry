@@ -14,34 +14,39 @@
  * License for more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * GraciaRevive. If not, see <http://www.gnu.org/licenses/>.
+ * GraciaRevive. If not, see http://www.gnu.org/licenses/.
  */
 package com.graciarevive.registry.infrastructure.datasource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Objects;
 
 import com.graciarevive.registry.config.RegistryConfig;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
- /**
- * DataSourceProvider.
+/**
+ * Creates and manages the application's database connection pool.
+ *
  * @author Marian
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 public final class DataSourceProvider implements AutoCloseable {
 
     private final HikariDataSource dataSource;
 
     public DataSourceProvider(RegistryConfig config) {
-        HikariConfig hikariConfig = new HikariConfig();
+        Objects.requireNonNull(config, "config must not be null");
+
+        final var hikariConfig = new HikariConfig();
 
         hikariConfig.setJdbcUrl(config.dbUrl());
         hikariConfig.setUsername(config.dbUser());
         hikariConfig.setPassword(config.dbPassword());
         hikariConfig.setMaximumPoolSize(config.dbPoolSize());
+
         hikariConfig.setPoolName("GraciaRevive-DB-Pool");
         hikariConfig.setAutoCommit(true);
 
@@ -54,8 +59,6 @@ public final class DataSourceProvider implements AutoCloseable {
 
     @Override
     public void close() {
-        if (dataSource != null && !dataSource.isClosed()) {
-            dataSource.close();
-        }
+        dataSource.close();
     }
 }
