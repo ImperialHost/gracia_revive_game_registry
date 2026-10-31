@@ -14,23 +14,20 @@
  * License for more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * GraciaRevive. If not, see <http://www.gnu.org/licenses/>.
+ * GraciaRevive. If not, see http://www.gnu.org/licenses/.
  */
 package com.graciarevive.registry.infrastructure.file;
 
- /**
- * FileIOException.
+/**
+ * Unchecked exception thrown when a file operation fails.
+ *
  * @author Marian
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 public final class FileIOException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
-
-	public FileIOException() {
-        super();
-    }
+    private static final long serialVersionUID = 1L;
 
     public FileIOException(String message) {
         super(message);
