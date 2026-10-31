@@ -14,7 +14,7 @@
  * License for more details.
  *
  * You should have received a copy of the GNU General Public License along with
- * GraciaRevive. If not, see <http://www.gnu.org/licenses/>.
+ * GraciaRevive. If not, see http://www.gnu.org/licenses/.
  */
 package com.graciarevive.registry.infrastructure.file;
 
@@ -23,36 +23,47 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.Objects;
 
- /**
- * FileIO.
+/**
+ * Utility class for file operations.
+ *
  * @author Marian
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 public final class FileIO {
 
     private FileIO() {
-
+        throw new UnsupportedOperationException("Utility class");
     }
 
     public static String readString(Path path) {
+        Objects.requireNonNull(path, "path must not be null");
+
         try {
             return Files.readString(path, StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new FileIOException("Failed to read string from file: " + path, e);
+            throw new FileIOException(
+                    "Failed to read string from file: " + path, e);
         }
     }
 
     public static byte[] readBytes(Path path) {
+        Objects.requireNonNull(path, "path must not be null");
+
         try {
             return Files.readAllBytes(path);
         } catch (IOException e) {
-            throw new FileIOException("Failed to read bytes from file: " + path, e);
+            throw new FileIOException(
+                    "Failed to read bytes from file: " + path, e);
         }
     }
 
     public static void writeString(Path path, String content) {
+        Objects.requireNonNull(path, "path must not be null");
+        Objects.requireNonNull(content, "content must not be null");
+
         try {
             ensureParentDirectory(path);
 
@@ -63,13 +74,16 @@ public final class FileIO {
                     StandardOpenOption.CREATE,
                     StandardOpenOption.TRUNCATE_EXISTING
             );
-
         } catch (IOException e) {
-            throw new FileIOException("Failed to write string to file: " + path, e);
+            throw new FileIOException(
+                    "Failed to write string to file: " + path, e);
         }
     }
 
     public static void writeBytes(Path path, byte[] data) {
+        Objects.requireNonNull(path, "path must not be null");
+        Objects.requireNonNull(data, "data must not be null");
+
         try {
             ensureParentDirectory(path);
 
@@ -79,32 +93,41 @@ public final class FileIO {
                     StandardOpenOption.CREATE,
                     StandardOpenOption.TRUNCATE_EXISTING
             );
-
         } catch (IOException e) {
-            throw new FileIOException("Failed to write bytes to file: " + path, e);
+            throw new FileIOException(
+                    "Failed to write bytes to file: " + path, e);
         }
     }
 
     public static void deleteIfExists(Path path) {
+        Objects.requireNonNull(path, "path must not be null");
+
         try {
             Files.deleteIfExists(path);
         } catch (IOException e) {
-            throw new FileIOException("Failed to delete file: " + path, e);
+            throw new FileIOException(
+                    "Failed to delete file: " + path, e);
         }
     }
 
     public static boolean exists(Path path) {
+        Objects.requireNonNull(path, "path must not be null");
+
         return Files.exists(path);
     }
 
     public static void ensureParentDirectory(Path path) {
+        Objects.requireNonNull(path, "path must not be null");
+
         try {
-            Path parent = path.getParent();
+            final Path parent = path.getParent();
+
             if (parent != null) {
                 Files.createDirectories(parent);
             }
         } catch (IOException e) {
-            throw new FileIOException("Failed to create parent directories for: " + path, e);
+            throw new FileIOException(
+                    "Failed to create parent directories for: " + path, e);
         }
     }
 }
