@@ -18,11 +18,14 @@
  */
 package com.graciarevive.registry.config;
 
- /**
- * RegistryConfig.
+import java.util.Objects;
+
+/**
+ * Immutable registry database configuration.
+ *
  * @author Marian
  * @since 1.0
- * @version 1.0
+ * @version 1.1
  */
 public record RegistryConfig(
         String dbUrl,
@@ -30,9 +33,23 @@ public record RegistryConfig(
         String dbPassword,
         int dbPoolSize
 ) {
+
     public RegistryConfig {
+        Objects.requireNonNull(dbUrl, "dbUrl must not be null");
+        Objects.requireNonNull(dbUser, "dbUser must not be null");
+        Objects.requireNonNull(dbPassword, "dbPassword must not be null");
+
+        if (dbUrl.isBlank()) {
+            throw new IllegalArgumentException("dbUrl must not be blank");
+        }
+
+        if (dbUser.isBlank()) {
+            throw new IllegalArgumentException("dbUser must not be blank");
+        }
+
         if (dbPoolSize <= 0) {
-            dbPoolSize = 10;
+            throw new IllegalArgumentException(
+                    "dbPoolSize must be greater than zero");
         }
     }
 }
